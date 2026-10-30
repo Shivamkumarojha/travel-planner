@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoyageAI — AI Travel Itinerary Planner</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- External Application Stylesheet (CSS) -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen flex flex-col font-sans">
+
+  <!-- NAVBAR COMPONENT -->
+  <header class="sticky top-0 z-50 bg-[#090a10]/85 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-6 h-18 flex items-center justify-between py-4">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="showView('landing')">
+        <div class="w-10 h-10 rounded-xl btn-gradient flex items-center justify-center shadow-lg shadow-purple-500/30">
+          <i data-lucide="compass" class="text-white w-5 h-5"></i>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight">Voyage<span class="text-purple-400">AI</span></span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <button onclick="showView('landing')" class="text-gray-300 hover:text-white transition cursor-pointer">Home</button>
+        <button onclick="showView('builder')" class="text-purple-400 hover:text-purple-300 flex items-center gap-1.5 transition cursor-pointer">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> AI Trip Builder
+        </button>
+        <button onclick="showView('dashboard')" class="text-gray-300 hover:text-white transition cursor-pointer">My Trips</button>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <span class="badge badge-teal flex items-center gap-1">
+          <i data-lucide="zap" class="w-3 h-3"></i> Ready Demo
+        </span>
+        <button onclick="showView('builder')" class="btn btn-gradient btn-sm">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> New Trip
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP ROUTING CONTAINERS -->
+  <main class="flex-1 max-w-6xl mx-auto px-6 py-8 w-full">
+
+    <!-- VIEW 1: LANDING PAGE -->
+    <section id="view-landing" class="view-panel">
+      <div class="text-center py-16">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold mb-6">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> POWERED BY GEMINI AI & FASTAPI
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 max-w-3xl mx-auto leading-tight hero-title">
+          Your Next Dream Trip Planned in <span class="text-gradient">30 Seconds</span>
+        </h1>
+        <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-10">
+          Personalized itineraries with day-by-day morning, afternoon, and evening timelines, dynamic budget tracking, and local secrets.
+        </p>
+
+        <div class="flex justify-center gap-4 flex-wrap">
+          <button onclick="showView('builder')" class="btn btn-gradient px-8 py-3.5 text-base cursor-pointer">
+            <span>Build Your Itinerary</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+          <button onclick="showView('dashboard')" class="btn btn-secondary px-6 py-3.5 text-base cursor-pointer">
+            Explore Saved Trips
+          </button>
+        </div>
+
+        <!-- Highlights Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 text-left grid-responsive">
+          <div class="glass-card p-6">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Day-by-Day Schedules</h3>
+            <p class="text-gray-400 text-sm">Morning, afternoon, and evening slots planned with real travel logistics and transit pacing.</p>
+          </div>
+          <div class="glass-card p-6">
+            <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center mb-4">
+              <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Budget Tracking</h3>
+            <p class="text-gray-400 text-sm">Automated breakdown for lodging, activities, authentic dining, and transit buffer.</p>
+          </div>
+          <div class="glass-card p-6">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+              <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">1-Click Regeneration</h3>
+            <p class="text-gray-400 text-sm">Instantly regenerate or tweak any single day with your custom travel requests.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: TRIP BUILDER WIZARD -->
+    <section id="view-builder" class="view-panel hidden max-w-2xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="badge badge-purple mb-2">Voyage AI Wizard</span>
+        <h2 class="text-3xl font-extrabold mt-1">Configure Your Journey</h2>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="flex items-center justify-between mb-8 px-4">
+        <div id="step-dot-1" class="w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-purple-500/30">1</div>
+        <div class="flex-1 h-0.5 bg-white/10 mx-2"></div>
+        <div id="step-dot-2" class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center font-bold text-sm">2</div>
+        <div class="flex-1 h-0.5 bg-white/10 mx-2"></div>
+        <div id="step-dot-3" class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center font-bold text-sm">3</div>
+      </div>
+
+      <!-- Step 1: Destination -->
+      <div id="builder-step-1" class="glass-card p-8">
+        <h3 class="text-xl font-bold mb-2">Where & When?</h3>
+        <p class="text-gray-400 text-sm mb-6">Choose your destination and target travel dates.</p>
+
+        <div class="mb-4">
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Destination City</label>
+          <input type="text" id="input-destination" value="Paris, France" class="form-input" placeholder="e.g. Tokyo, Rome, New York">
+          <div class="flex flex-wrap gap-2 mt-3">
+            <button onclick="setDest('Tokyo, Japan')" class="text-xs px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 cursor-pointer">Tokyo</button>
+            <button onclick="setDest('Rome, Italy')" class="text-xs px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 cursor-pointer">Rome</button>
+            <button onclick="setDest('Kyoto, Japan')" class="text-xs px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 cursor-pointer">Kyoto</button>
+            <button onclick="setDest('New York, USA')" class="text-xs px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 cursor-pointer">New York</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Start Date</label>
+            <input type="date" id="input-start-date" value="2025-06-01" class="form-input">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">End Date</label>
+            <input type="date" id="input-end-date" value="2025-06-04" class="form-input">
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <button onclick="goToStep(2)" class="btn btn-gradient">
+            <span>Next: Budget & Group</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Budget -->
+      <div id="builder-step-2" class="glass-card p-8 hidden">
+        <h3 class="text-xl font-bold mb-2">Budget & Group Size</h3>
+        <p class="text-gray-400 text-sm mb-6">Specify your spending targets and group dynamics.</p>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Total Budget</label>
+            <input type="number" id="input-budget" value="1500" class="form-input">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Currency</label>
+            <select id="input-currency" class="form-input">
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="JPY">JPY (¥)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Traveling Party</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button onclick="setParty(1)" id="party-1" class="party-btn p-3 rounded-xl bg-purple-500/20 border border-purple-500 text-white font-semibold text-xs text-center cursor-pointer">Solo</button>
+            <button onclick="setParty(2)" id="party-2" class="party-btn p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 font-semibold text-xs text-center cursor-pointer">Couple (2)</button>
+            <button onclick="setParty(4)" id="party-4" class="party-btn p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 font-semibold text-xs text-center cursor-pointer">Family (4)</button>
+            <button onclick="setParty(6)" id="party-6" class="party-btn p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 font-semibold text-xs text-center cursor-pointer">Group (6+)</button>
+          </div>
+        </div>
+
+        <div class="flex justify-between">
+          <button onclick="goToStep(1)" class="btn btn-secondary">Back</button>
+          <button onclick="goToStep(3)" class="btn btn-gradient">
+            <span>Next: Style & Vibe</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Style -->
+      <div id="builder-step-3" class="glass-card p-8 hidden">
+        <h3 class="text-xl font-bold mb-2">Style & Travel Interests</h3>
+        <p class="text-gray-400 text-sm mb-6">Select your pace and favorite themes.</p>
+
+        <div class="mb-6">
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Travel Style</label>
+          <select id="input-style" class="form-input">
+            <option value="Balanced">Balanced (Comfortable mix of landmarks & relaxation)</option>
+            <option value="Backpacker">Backpacker / Budget (Hostels, street food & transit)</option>
+            <option value="Luxury">Luxury (Boutique stays, fine dining & private tours)</option>
+            <option value="Adventure">Active & Adventure (Outdoors, hiking & thrills)</option>
+          </select>
+        </div>
+
+        <div class="mb-8">
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-3">Key Interests</label>
+          <div class="flex flex-wrap gap-2.5" id="interests-container">
+            <button type="button" class="interest-tag active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-teal-500/20 border border-teal-500 text-teal-300 cursor-pointer" onclick="toggleTag(this)">Historic Landmarks</button>
+            <button type="button" class="interest-tag active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-teal-500/20 border border-teal-500 text-teal-300 cursor-pointer" onclick="toggleTag(this)">Local Food & Cafes</button>
+            <button type="button" class="interest-tag active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-teal-500/20 border border-teal-500 text-teal-300 cursor-pointer" onclick="toggleTag(this)">Art & Museums</button>
+            <button type="button" class="interest-tag px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/5 border border-white/10 text-gray-400 cursor-pointer" onclick="toggleTag(this)">Nature & Parks</button>
+            <button type="button" class="interest-tag px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/5 border border-white/10 text-gray-400 cursor-pointer" onclick="toggleTag(this)">Nightlife & Bars</button>
+            <button type="button" class="interest-tag px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/5 border border-white/10 text-gray-400 cursor-pointer" onclick="toggleTag(this)">Shopping & Markets</button>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <button onclick="goToStep(2)" class="btn btn-secondary">Back</button>
+          <button onclick="triggerGenerate()" class="btn btn-gradient">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>Generate Itinerary</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="builder-loading" class="glass-card p-12 text-center hidden">
+        <div class="w-16 h-16 rounded-full btn-gradient flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
+          <i data-lucide="sparkles" class="text-white w-8 h-8"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">Voyage AI is Synthesizing...</h3>
+        <p id="loading-subtext" class="text-teal-400 text-sm font-medium">Curating morning, afternoon & evening activities...</p>
+      </div>
+    </section>
+
+    <!-- VIEW 3: ITINERARY DETAILS -->
+    <section id="view-itinerary" class="view-panel hidden">
+      <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+        <button onclick="showView('dashboard')" class="btn btn-secondary btn-sm">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Dashboard
+        </button>
+        <div class="flex items-center gap-3">
+          <button onclick="window.print()" class="btn btn-secondary btn-sm">
+            <i data-lucide="printer" class="w-4 h-4"></i> Print
+          </button>
+          <button id="save-trip-btn" onclick="saveCurrentTrip()" class="btn btn-gradient btn-sm">
+            <i data-lucide="bookmark" class="w-4 h-4"></i> Save to Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Banner -->
+      <div class="glass-card p-8 mb-8 border border-purple-500/30">
+        <div class="flex justify-between items-start flex-wrap gap-4 mb-4">
+          <div>
+            <div class="flex gap-2 mb-2">
+              <span id="itinerary-country" class="badge badge-purple">Country</span>
+              <span id="itinerary-days-badge" class="badge badge-teal">4 Days Itinerary</span>
+            </div>
+            <h1 id="itinerary-title" class="text-3xl md:text-5xl font-extrabold tracking-tight">Paris, France</h1>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-gray-400 block uppercase font-bold">Estimated Cost</span>
+            <span id="itinerary-cost" class="text-2xl md:text-3xl font-extrabold text-teal-400">$1,400 USD</span>
+          </div>
+        </div>
+        <p id="itinerary-summary" class="text-gray-300 text-sm md:text-base leading-relaxed max-w-4xl"></p>
+      </div>
+
+      <!-- Budget Breakdown Section -->
+      <div class="glass-card p-6 mb-8">
+        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+          <i data-lucide="pie-chart" class="w-5 h-5 text-teal-400"></i> Estimated Budget Allocation
+        </h3>
+        <div class="h-3 rounded-full flex overflow-hidden mb-6 bg-white/5">
+          <div style="width: 40%" class="bg-purple-500" title="Lodging (40%)"></div>
+          <div style="width: 25%" class="bg-teal-500" title="Activities (25%)"></div>
+          <div style="width: 20%" class="bg-amber-500" title="Dining (20%)"></div>
+          <div style="width: 15%" class="bg-cyan-500" title="Transit (15%)"></div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+          <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+            <span class="text-gray-400 block mb-1">Lodging & Stays</span>
+            <strong id="budget-lodging" class="text-purple-300 text-sm">$560</strong>
+          </div>
+          <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+            <span class="text-gray-400 block mb-1">Tours & Entry</span>
+            <strong id="budget-activities" class="text-teal-300 text-sm">$350</strong>
+          </div>
+          <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+            <span class="text-gray-400 block mb-1">Food & Dining</span>
+            <strong id="budget-food" class="text-amber-300 text-sm">$280</strong>
+          </div>
+          <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+            <span class="text-gray-400 block mb-1">Transit & Buffer</span>
+            <strong id="budget-transit" class="text-cyan-300 text-sm">$210</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day by Day Timelines -->
+      <div id="days-container" class="space-y-6"></div>
+    </section>
+
+    <!-- VIEW 4: DASHBOARD -->
+    <section id="view-dashboard" class="view-panel hidden">
+      <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+        <div>
+          <span class="badge badge-purple mb-2">Saved Trips</span>
+          <h2 class="text-3xl font-extrabold mt-1">My Travel Portfolio</h2>
+        </div>
+        <button onclick="showView('builder')" class="btn btn-gradient btn-sm">
+          <i data-lucide="plus" class="w-4 h-4"></i> New AI Itinerary
+        </button>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="glass-card p-4">
+          <span class="text-gray-400 text-xs font-bold uppercase">Saved Trips</span>
+          <h4 id="stat-trips-count" class="text-2xl font-extrabold mt-1">1</h4>
+        </div>
+        <div class="glass-card p-4">
+          <span class="text-gray-400 text-xs font-bold uppercase">Destinations</span>
+          <h4 id="stat-cities-count" class="text-2xl font-extrabold mt-1">1</h4>
+        </div>
+        <div class="glass-card p-4">
+          <span class="text-gray-400 text-xs font-bold uppercase">Days Planned</span>
+          <h4 id="stat-days-count" class="text-2xl font-extrabold mt-1">4</h4>
+        </div>
+        <div class="glass-card p-4">
+          <span class="text-gray-400 text-xs font-bold uppercase">Budget Total</span>
+          <h4 id="stat-budget-count" class="text-2xl font-extrabold mt-1">$1,400</h4>
+        </div>
+      </div>
+
+      <div id="saved-trips-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </section>
+
+  </main>
+
+  <!-- External Application Logic (JavaScript) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

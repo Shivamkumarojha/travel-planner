@@ -1,0 +1,19 @@
+# ========================================================
+# GitHub Linguist Language Detection Configuration
+# Ensures accurate multi-language breakdown on GitHub
+# ========================================================
+
+# Language Definitions
+*.py linguist-detectable=true linguist-language=Python
+*.js linguist-detectable=true linguist-language=JavaScript
+*.jsx linguist-detectable=true linguist-language=JavaScript
+*.css linguist-detectable=true linguist-language=CSS
+*.sql linguist-detectable=true linguist-language=SQL
+*.html linguist-detectable=true linguist-language=HTML
+
+# Ignore vendor/generated packages from language stats
+dist/* linguist-vendored
+build/* linguist-vendored
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+package-lock.json linguist-generated
